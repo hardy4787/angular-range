@@ -4,8 +4,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './inspection-page.component.html',
   styleUrls: ['./inspection-page.component.scss'],
 })
-export class InspectionPageComponent implements OnInit {
+export class InspectionPageComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }
