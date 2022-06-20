@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class InspectionApiService {
   readonly inspectionAPIUrl = 'https://localhost:7080/api/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getInspectionList$(): Observable<any[]> {
     return this.http.get<any[]>(this.inspectionAPIUrl + 'inspections');

@@ -45,7 +45,25 @@
             },
             "variables": true
           }
-        ]
+        ],
+        "no-plusplus": "off",
+        "curly": ["error", "all"],
+        "no-implicit-coercion": "error",
+        "max-len": ["error", { "code": 140 }],
+        "prefer-arrow-callback": "error",
+        "no-console": "off",
+        "linebreak-style": ["error", "windows"],
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          { "accessibility": "no-public" }
+        ],
+        "@typescript-eslint/prefer-readonly": [
+          "error",
+          { "onlyInlineLambdas": true }
+        ],
+        "@typescript-eslint/lines-between-class-members": "off",
+        "@typescript-eslint/comma-dangle": "off",
+        "@typescript-eslint/no-explicit-any": "warn"
       }
     },
     {
