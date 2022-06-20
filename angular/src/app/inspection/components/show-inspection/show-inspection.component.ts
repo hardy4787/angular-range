@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { InspectionApiService } from 'src/app/inspection-api.service';
+import { InspectionApiService } from 'src/app/inspection/services/inspection-api.service';
 
 @Component({
   selector: 'app-show-inspection',
   templateUrl: './show-inspection.component.html',
-  styleUrls: ['./show-inspection.component.css']
+  styleUrls: ['./show-inspection.component.scss']
 })
 export class ShowInspectionComponent implements OnInit {
 

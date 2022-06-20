@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { InspectionApiService } from 'src/app/inspection-api.service';
+import { InspectionApiService } from 'src/app/inspection/services/inspection-api.service';
 
 @Component({
   selector: 'app-add-edit-inspection',
   templateUrl: './add-edit-inspection.component.html',
-  styleUrls: ['./add-edit-inspection.component.css']
+  styleUrls: ['./add-edit-inspection.component.scss']
 })
 export class AddEditInspectionComponent implements OnInit {
 
