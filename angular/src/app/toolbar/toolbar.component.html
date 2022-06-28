@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <h1>Pet project</h1>
+    <span class="menu-spacer"></span>
+    <div>
+      <a mat-button routerLink="/inspection">Inspection</a>
+      <button
+        *ngIf="isUserLogged; else loginButton"
+        mat-button
+        (click)="onLogout()"
+      >
+        Logout
+      </button>
+      <ng-template #loginButton>
+        <button mat-button (click)="onOpenLoginDialog()">Login</button>
+      </ng-template>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>

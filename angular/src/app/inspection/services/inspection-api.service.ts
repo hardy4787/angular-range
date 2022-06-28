@@ -1,60 +1,67 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ServiceHelper } from 'src/app/shared/services/service-helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InspectionApiService {
-  readonly inspectionAPIUrl = 'https://localhost:7080/api/';
+  readonly statusUrl = 'api/status';
+  readonly statusByIdUrl = (id: number | string) => `api/status/${id}`;
+  readonly inspectionUrl = 'api/inspections';
+  readonly inspectionTypesUrl = 'api/inspectionTypes';
+  readonly inspectionByIdUrl = (id: number | string) => `api/inspections/${id}`;
+  readonly inspectionTypeByIdUrl = (id: number | string) =>
+    `api/inspectionTypes/${id}`;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly serviceHelper: ServiceHelper) {}
 
   getInspectionList$(): Observable<any[]> {
-    return this.http.get<any[]>(this.inspectionAPIUrl + 'inspections');
+    return this.serviceHelper.get$<any[]>(this.inspectionUrl);
   }
 
   addInspection(data: any) {
-    return this.http.post(this.inspectionAPIUrl + 'inspections', data);
+    return this.serviceHelper.post$(this.inspectionUrl, data);
   }
 
   updateInspection(id: number | string, data: any) {
-    return this.http.put(this.inspectionAPIUrl + `inspections/${id}`, data);
+    return this.serviceHelper.put$(this.inspectionByIdUrl(id), data);
   }
 
   deleteInspection(id: number | string) {
-    return this.http.delete(this.inspectionAPIUrl + `inspections/${id}`);
+    return this.serviceHelper.delete$(this.inspectionByIdUrl(id));
   }
 
   getInspectionTypesList$(): Observable<any[]> {
-    return this.http.get<any[]>(this.inspectionAPIUrl + 'inspectionTypes');
+    return this.serviceHelper.get$(this.inspectionTypesUrl);
   }
 
   addInspectionTypes(data: any) {
-    return this.http.post(this.inspectionAPIUrl + 'inspectionTypes', data);
+    return this.serviceHelper.post$(this.inspectionTypesUrl, data);
   }
 
   updateInspectionTypes(id: number | string, data: any) {
-    return this.http.put(this.inspectionAPIUrl + `inspectionTypes/${id}`, data);
+    return this.serviceHelper.put$(this.inspectionTypeByIdUrl(id), data);
   }
 
   deleteInspectionTypes(id: number | string) {
-    return this.http.delete(this.inspectionAPIUrl + `inspectionTypes/${id}`);
+    return this.serviceHelper.delete$(this.inspectionTypeByIdUrl(id));
   }
 
   getStatusList$(): Observable<any[]> {
-    return this.http.get<any[]>(this.inspectionAPIUrl + 'status');
+    return this.serviceHelper.get$<any[]>(this.statusUrl);
   }
 
   addStatus(data: any) {
-    return this.http.post(this.inspectionAPIUrl + 'status', data);
+    return this.serviceHelper.post$(this.statusUrl, data);
   }
 
   updateStatus(id: number | string, data: any) {
-    return this.http.put(this.inspectionAPIUrl + `status/${id}`, data);
+    return this.serviceHelper.put$(this.statusByIdUrl(id), data);
   }
 
   deleteStatus(id: number | string) {
-    return this.http.delete(this.inspectionAPIUrl + `status/${id}`);
+    return this.serviceHelper.delete$(this.statusByIdUrl(id));
   }
 }
