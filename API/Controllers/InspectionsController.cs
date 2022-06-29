@@ -1,15 +1,9 @@
-﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NotesMinimalAPI;
-using NotesMinimalAPI.Data;
 
-namespace NotesMinimalAPI.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -21,16 +15,14 @@ namespace NotesMinimalAPI.Controllers
         {
             _context = context;
         }
-
-        // GET: api/Inspections
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Inspection>>> GetInspection()
         {
             return await _context.Inspection.ToListAsync();
         }
-
-        // GET: api/Inspections/5
-        [HttpGet("{id}")]
+        
+        [HttpGet("id")]
         public async Task<ActionResult<Inspection>> GetInspection(int id)
         {
             var inspection = await _context.Inspection.FindAsync(id);
@@ -42,10 +34,8 @@ namespace NotesMinimalAPI.Controllers
 
             return inspection;
         }
-
-        // PUT: api/Inspections/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        
+        [HttpPut("id")]
         public async Task<IActionResult> PutInspection(int id, Inspection inspection)
         {
             if (id != inspection.Id)
@@ -73,9 +63,7 @@ namespace NotesMinimalAPI.Controllers
 
             return NoContent();
         }
-
-        // POST: api/Inspections
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
         public async Task<ActionResult<Inspection>> PostInspection(Inspection inspection)
         {
@@ -84,9 +72,8 @@ namespace NotesMinimalAPI.Controllers
 
             return CreatedAtAction("GetInspection", new { id = inspection.Id }, inspection);
         }
-
-        // DELETE: api/Inspections/5
-        [HttpDelete("{id}")]
+        
+        [HttpDelete("id")]
         public async Task<IActionResult> DeleteInspection(int id)
         {
             var inspection = await _context.Inspection.FindAsync(id);

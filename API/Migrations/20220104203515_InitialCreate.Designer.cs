@@ -2,10 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NotesMinimalAPI.Data;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-
+using API.Data;
 #nullable disable
 
 namespace NotesMinimalAPI.Migrations

@@ -1,15 +1,10 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NotesMinimalAPI;
-using NotesMinimalAPI.Data;
 
-namespace NotesMinimalAPI.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,15 +17,13 @@ namespace NotesMinimalAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Status
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Status>>> GetStatuses()
         {
             return await _context.Statuses.ToListAsync();
         }
-
-        // GET: api/Status/5
-        [HttpGet("{id}")]
+        
+        [HttpGet("id")]
         public async Task<ActionResult<Status>> GetStatus(int id)
         {
             var status = await _context.Statuses.FindAsync(id);
@@ -42,10 +35,8 @@ namespace NotesMinimalAPI.Controllers
 
             return status;
         }
-
-        // PUT: api/Status/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        
+        [HttpPut("id")]
         public async Task<IActionResult> PutStatus(int id, Status status)
         {
             if (id != status.Id)
@@ -73,9 +64,7 @@ namespace NotesMinimalAPI.Controllers
 
             return NoContent();
         }
-
-        // POST: api/Status
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
         public async Task<ActionResult<Status>> PostStatus(Status status)
         {
@@ -84,9 +73,8 @@ namespace NotesMinimalAPI.Controllers
 
             return CreatedAtAction("GetStatus", new { id = status.Id }, status);
         }
-
-        // DELETE: api/Status/5
-        [HttpDelete("{id}")]
+        
+        [HttpDelete("id")]
         public async Task<IActionResult> DeleteStatus(int id)
         {
             var status = await _context.Statuses.FindAsync(id);

@@ -1,24 +1,16 @@
 ﻿using API.Entities;
-using API.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class IdentityContext: IdentityDbContext
+    public sealed class IdentityContext: IdentityDbContext<User>
     {
         public IdentityContext(DbContextOptions<IdentityContext> options): base(options)
         {
+            Database.Migrate();
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
-        }
-
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

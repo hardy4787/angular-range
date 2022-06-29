@@ -31,12 +31,14 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button type="button" color="primary" mat-dialog-close>Cancel</button>
+  <button mat-button type="button" color="primary" mat-dialog-close>
+    Cancel
+  </button>
   <button
     mat-button
     (click)="onSave()"
     [disabled]="form.invalid || form.pristine"
   >
-    Save
+    Let's go
   </button>
 </mat-dialog-actions>

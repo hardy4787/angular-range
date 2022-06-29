@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoginRequest } from './models/login-request.model';
 import { LoginService } from './services/login.service';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ToastrService } from 'ngx-toastr';
+import { RegistrationRequest } from './models/registration-request.model';
 
 @UntilDestroy()
 @Component({
@@ -30,6 +30,25 @@ export class ToolbarComponent {
         filter(Boolean),
         switchMap((dialogResult: LoginRequest) =>
           this.loginService.login$(dialogResult).pipe(
+            tap((response) => {
+              sessionStorage.setItem('tokenKey', response.accessToken);
+              this.isUserLogged = true;
+            })
+          )
+        )
+      )
+      .subscribe();
+  }
+
+  onOpenRegistrationDialog(): void {
+    this.dialog
+      .open(LoginDialogComponent)
+      .afterClosed()
+      .pipe(
+        untilDestroyed(this),
+        filter(Boolean),
+        switchMap((dialogResult: RegistrationRequest) =>
+          this.loginService.registration$(dialogResult).pipe(
             tap((response) => {
               sessionStorage.setItem('tokenKey', response.accessToken);
               this.isUserLogged = true;

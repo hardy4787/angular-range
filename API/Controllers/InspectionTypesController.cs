@@ -1,16 +1,11 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NotesMinimalAPI;
-using NotesMinimalAPI.Data;
 
-namespace NotesMinimalAPI.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,16 +18,14 @@ namespace NotesMinimalAPI.Controllers
         {
             _context = context;
         }
-
-        // GET: api/InspectionTypes
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InspectionType>>> GetInspectionTypes()
         {
             return await _context.InspectionTypes.ToListAsync();
         }
-
-        // GET: api/InspectionTypes/5
-        [HttpGet("{id}")]
+        
+        [HttpGet("id")]
         public async Task<ActionResult<InspectionType>> GetInspectionType(int id)
         {
             var inspectionType = await _context.InspectionTypes.FindAsync(id);
@@ -44,10 +37,8 @@ namespace NotesMinimalAPI.Controllers
 
             return inspectionType;
         }
-
-        // PUT: api/InspectionTypes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        
+        [HttpPut("id")]
         public async Task<IActionResult> PutInspectionType(int id, InspectionType inspectionType)
         {
             if (id != inspectionType.Id)
@@ -76,8 +67,6 @@ namespace NotesMinimalAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/InspectionTypes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<InspectionType>> PostInspectionType(InspectionType inspectionType)
         {
@@ -86,9 +75,8 @@ namespace NotesMinimalAPI.Controllers
 
             return CreatedAtAction("GetInspectionType", new { id = inspectionType.Id }, inspectionType);
         }
-
-        // DELETE: api/InspectionTypes/5
-        [HttpDelete("{id}")]
+        
+        [HttpDelete("id")]
         public async Task<IActionResult> DeleteInspectionType(int id)
         {
             var inspectionType = await _context.InspectionTypes.FindAsync(id);

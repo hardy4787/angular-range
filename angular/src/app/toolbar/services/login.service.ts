@@ -1,24 +1,23 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ServiceHelper } from 'src/app/shared/services/service-helper';
+import { ServiceHelper } from 'src/app/shared';
 import { LoginRequest } from '../models/login-request.model';
-import { RefreshTokenRequest } from '../models/refresh-token-request.model';
-import { SignupRequest } from '../models/signup-request.model';
+import { RegistrationRequest } from '../models/registration-request.model';
 import { TokenResponse } from '../models/token-response.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  // readonly usersUrl = 'api/users';
-
   constructor(private readonly serviceHelper: ServiceHelper) {}
 
-  login$(loginRequest: LoginRequest): Observable<TokenResponse> {
-    return this.serviceHelper.post$<TokenResponse>('login', loginRequest);
+  login$(body: LoginRequest): Observable<TokenResponse> {
+    return this.serviceHelper.post$<TokenResponse>('login', body);
   }
 
+  registration$(body: RegistrationRequest) {
+    return this.serviceHelper.post$<TokenResponse>('registration', body);
+  }
   // signup$(signupRequest: SignupRequest) {
   //   return this.serviceHelper.post$(`${this.usersUrl}/signup`, signupRequest, {
   //     httpOptions: {

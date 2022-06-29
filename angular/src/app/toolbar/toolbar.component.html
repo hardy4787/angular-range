@@ -5,14 +5,15 @@
     <div>
       <a mat-button routerLink="/inspection">Inspection</a>
       <button
-        *ngIf="isUserLogged; else loginButton"
+        *ngIf="isUserLogged; else authenticationPanel"
         mat-button
         (click)="onLogout()"
       >
         Logout
       </button>
-      <ng-template #loginButton>
-        <button mat-button (click)="onOpenLoginDialog()">Login</button>
+      <ng-template #authenticationPanel>
+        <button mat-button (click)="onOpenLoginDialog()">Sign in</button>
+        <button mat-stroked-button (click)="onOpenRegistrationDialog()">Get started</button>
       </ng-template>
     </div>
   </mat-toolbar-row>

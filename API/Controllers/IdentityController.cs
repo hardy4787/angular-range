@@ -23,7 +23,7 @@ namespace API.Controllers
                 });
             }
 
-            var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
+            var authResponse = await _identityService.RegisterAsync(request);
 
             if (!authResponse.Success)
             {

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ValidationConstants } from 'src/app/shared/constants/validation-constants';
+import { ValidationConstants } from 'src/app/shared';
 import { LoginRequest } from '../../models/login-request.model';
 
 @Component({

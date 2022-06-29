@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NotesMinimalAPI
+namespace API.Entities
 {
     public class Inspection
     {

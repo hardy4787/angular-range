@@ -6,9 +6,14 @@ import { ToolbarComponent } from './toolbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
+import { RegistrationDialogComponent } from './components/registration-dialog/registration-dialog.component';
 
 @NgModule({
-  declarations: [ToolbarComponent, LoginDialogComponent],
+  declarations: [
+    ToolbarComponent,
+    LoginDialogComponent,
+    RegistrationDialogComponent,
+  ],
   imports: [
     ToolbarRoutingModule,
     CommonModule,
