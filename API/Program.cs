@@ -7,6 +7,10 @@ using NotesMinimalAPI.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using API.Data;
+using API.Entities;
+using API.Services;
+using Microsoft.AspNetCore.Identity;
 
 var adminRole = new Role("admin");
 var userRole = new Role("user");
@@ -17,80 +21,28 @@ var people = new List<Person>
 };
 var builder = WebApplication.CreateBuilder(args);
 
+InstallIdentity();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(s =>
-{
-    var security = new Dictionary<string, IEnumerable<string>>
-    {
-        { "Bearer", new string[0] }
-    };
+InstallSwagger();
 
-    s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the bearer scheme",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = JwtBearerDefaults.AuthenticationScheme,
-    });
-    s.AddSecurityRequirement(new OpenApiSecurityRequirement()
-{
-    {
-        new OpenApiSecurityScheme
-        {
-            Reference = new OpenApiReference
-            {
-                Type = ReferenceType.SecurityScheme,
-                Id = JwtBearerDefaults.AuthenticationScheme
-            },
-            Name = JwtBearerDefaults.AuthenticationScheme,
-            In = ParameterLocation.Header,
-
-        },
-        new List<string>()
-    }
-});
-});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var jwtSettings = new JwtSettings();
-builder.Services.AddSingleton(jwtSettings);
-builder.Configuration.Bind(nameof(jwtSettings), jwtSettings);
+
+InstallJwtAuthorization();
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(connectionString));
 
-builder.Services.AddAuthentication(a =>
-{
-    a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    a.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        RequireExpirationTime = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-        ValidateIssuerSigningKey = true,
-    };
-});
+builder.Services.AddSingleton(jwtSettings);
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Configuration.Bind(nameof(jwtSettings), jwtSettings);
 builder.Services.AddAuthorization();
 
-
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: myAllowSpecificOrigins,
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
-        });
-});
+InstallCors();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -101,7 +53,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 app.UseCors(myAllowSpecificOrigins);
 app.UseAuthentication();
@@ -134,9 +85,92 @@ app.MapControllers();
 
 app.Run();
 
+void InstallIdentity()
+{
+    builder.Services.AddDbContext<IdentityContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
+    builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
+}
+
+void InstallSwagger()
+{
+    builder.Services.AddSwaggerGen(s =>
+    {
+        var security = new Dictionary<string, IEnumerable<string>>
+        {
+            { "Bearer", new string[0] }
+        };
+
+        s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Description = "JWT Authorization header using the bearer scheme",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = JwtBearerDefaults.AuthenticationScheme,
+        });
+        s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = JwtBearerDefaults.AuthenticationScheme
+                    },
+                    Name = JwtBearerDefaults.AuthenticationScheme,
+                    In = ParameterLocation.Header,
+
+                },
+                new List<string>()
+            }
+        });
+    });
+}
+
+void InstallJwtAuthorization()
+{
+    var tokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        RequireExpirationTime = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+        ValidateIssuerSigningKey = true,
+    };
+
+    builder.Services.AddSingleton(tokenValidationParameters);
+
+    builder.Services.AddAuthentication(a =>
+    {
+        a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        a.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.TokenValidationParameters = tokenValidationParameters;
+    });
+}
+
+void InstallCors()
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: myAllowSpecificOrigins,
+            builder =>
+            {
+                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+            });
+    });
+}
+
 public class JwtSettings
 {
-    public string Secret { get; set; } = string.Empty;
+    public string Secret { get; set; }
+    public TimeSpan TokenLifetime { get; set; }
 }
 
 public record Person(string Email, string Password, Role Role);

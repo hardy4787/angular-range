@@ -9,6 +9,4 @@ namespace NotesMinimalAPI.Data
         public DbSet<InspectionType> InspectionTypes { get; set; }
         public DbSet<Status> Statuses { get; set; }
     }
-
-
 }
