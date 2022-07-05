@@ -46,8 +46,7 @@ void InstallDbIdentity()
 {
     builder.Services.AddDbContext<IdentityContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
-    builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
-    // AddDefaultTokenProviders?
+    builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
     builder.Services.Configure<IdentityOptions>(options =>
     {
@@ -103,12 +102,16 @@ void InstallJwtAuthorization()
 {
     var tokenValidationParameters = new TokenValidationParameters
     {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
         ValidateIssuer = false,
         ValidateAudience = false,
-        ValidateLifetime = true,
         RequireExpirationTime = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
-        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true,
+        LifetimeValidator = (DateTime? notBefore, DateTime? expires, SecurityToken securityToken,
+                                     TokenValidationParameters validationParameters) =>
+            notBefore <= DateTime.UtcNow &&
+                   expires >= DateTime.UtcNow
     };
 
     builder.Services.AddSingleton(tokenValidationParameters);

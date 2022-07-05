@@ -173,8 +173,8 @@ namespace API.Services
             try
             {
                 var tokenValidationParameters = _tokenValidationParameters.Clone();
-                tokenValidationParameters.ValidateLifetime = false;
-                var principal = tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
+                tokenValidationParameters.LifetimeValidator = (_, _, _, _) => true;
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
                 return !IsJwtWithValidSecurityAlgorithm(validatedToken) ? null : principal;
             }
             catch

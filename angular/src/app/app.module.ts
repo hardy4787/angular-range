@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorProvider } from './shared/interceptors/token.interceptor';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -16,7 +17,7 @@ import { AuthInterceptorProvider } from './shared/interceptors/token.interceptor
     AppRoutingModule,
     ToastrModule.forRoot(),
   ],
-  providers: [AuthInterceptorProvider],
+  providers: [AuthInterceptorProvider, ErrorInterceptor],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

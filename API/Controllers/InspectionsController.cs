@@ -1,24 +1,31 @@
 ﻿using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class InspectionsController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly JwtSettings _jwtSettings;
 
-        public InspectionsController(DataContext context)
+        public InspectionsController(DataContext context, JwtSettings jwtSettings)
         {
             _context = context;
+            _jwtSettings = jwtSettings;
         }
         
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Inspection>>> GetInspection()
         {
+            Trace.WriteLine(_jwtSettings.TokenLifetime.TotalSeconds);
+            Trace.WriteLine(_jwtSettings.TokenLifetime.TotalSeconds);
             return await _context.Inspection.ToListAsync();
         }
         

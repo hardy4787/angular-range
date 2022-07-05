@@ -1,22 +1,17 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { FormValidators, ValidationConstants } from 'src/app/shared';
-import { LoginRequest } from '../../models/login-request.model';
+import { SignupRequest } from '../../models/signup-request.model';
+import { IdentityService } from '../../services/identity.service';
+import { tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  templateUrl: './registration-dialog.component.html',
-  styleUrls: ['./registration-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './registration-card.component.html',
+  styleUrls: ['./registration-card.component.scss'],
 })
-export class RegistrationDialogComponent {
-  @Output() enteredCredentials = new EventEmitter<LoginRequest>();
+export class RegistrationCardComponent {
   readonly validationConstants = ValidationConstants;
   emailTextLimit = 50;
   firstNameTextLimit = 50;
@@ -26,7 +21,9 @@ export class RegistrationDialogComponent {
 
   constructor(
     private readonly fromBuilder: FormBuilder,
-    private readonly dialogRef: MatDialogRef<RegistrationDialogComponent>
+    private readonly identityService: IdentityService,
+    private readonly router: Router,
+    private readonly notify: MatSnackBar
   ) {
     this.createForm();
   }
@@ -51,6 +48,18 @@ export class RegistrationDialogComponent {
   }
 
   onSave(): void {
-    this.dialogRef.close(this.form.value);
+    const signupRequest = {
+      ...this.form.value,
+    } as SignupRequest;
+    this.identityService
+      .signup$(signupRequest)
+      .pipe(
+        tap((response) => {
+          // sessionStorage.setItem('token', response.token);
+          this.notify.open('Registration succeed.');
+          this.router.navigate(['']);
+        })
+      )
+      .subscribe();
   }
 }

@@ -9,7 +9,6 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="admin")]
     public class InspectionTypesController : ControllerBase
     {
         private readonly DataContext _context;
