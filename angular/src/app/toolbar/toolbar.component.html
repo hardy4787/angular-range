@@ -1,9 +1,10 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <h1>Pet project</h1>
-    <span class="menu-spacer"></span>
     <div>
-      <a mat-button routerLink="/inspection">Inspection</a>
+      <button mat-button routerLink="/examples">Examples</button>
+    </div>
+    <div>
+      <button mat-button routerLink="/inspection">Inspection</button>
       <button
         *ngIf="isLoggedIn; else authenticationPanel"
         mat-button
@@ -13,7 +14,7 @@
       </button>
       <ng-template #authenticationPanel>
         <button mat-button routerLink="/account/login">Sign in</button>
-        <button mat-stroked-button routerLink="/account/signup">
+        <button mat-raised-button routerLink="/account/signup">
           Get started
         </button>
       </ng-template>

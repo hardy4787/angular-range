@@ -1,0 +1,39 @@
+<div *ngIf="data.title" class="dialog-header">
+  <h1 mat-dialog-title class="title">{{ data.title }}</h1>
+
+  <button mat-icon-button class="close-button" (click)="onNoClick()">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <div class="pre-formatted-content" cdkFocusInitial>{{ data.message }}</div>
+  <div class="warning-container" *ngIf="data.warningText">
+    <mat-icon class="warning-icon">warning</mat-icon>
+    <span class="warning-text">{{ data.warningText }}</span>
+  </div>
+</div>
+<div mat-dialog-actions align="end" *ngIf="data.defaultToCancel">
+  <button mat-raised-button data-testid="dialog-reject" type="button" (click)="onNoClick()" color="primary">{{
+    data.rejectText
+  }}</button>
+
+  <button mat-button data-testid=" dialog-accept" color="primary" [mat-dialog-close]="true">{{
+    data.acceptText
+  }}</button>
+</div>
+<div mat-dialog-actions align="end" *ngIf="!data.defaultToCancel">
+  <button
+    *ngIf="data.rejectText"
+    mat-button
+    data-testid="dialog-reject"
+    type="button"
+    (click)="onNoClick()"
+    color="primary"
+    >{{ data.rejectText }}</button
+  >
+
+  <button mat-raised-button data-testid="dialog-accept" color="primary" [mat-dialog-close]="true">{{
+    data.acceptText
+  }}</button>
+</div>

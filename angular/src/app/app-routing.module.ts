@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./toolbar/toolbar.module').then((m) => m.ToolbarModule),
   },
+  {
+    path: 'examples',
+    loadChildren: () =>
+      import('./examples/examples.module').then((m) => m.ExamplesModule),
+  },
 ];
 
 @NgModule({

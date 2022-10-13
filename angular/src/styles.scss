@@ -1,4 +1,76 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+}
+
+.mat-error .mat-icon,
+.mat-form-field-subscript-wrapper .mat-error .mat-icon,
+.mat-form-field-label-wrapper .mat-error .mat-icon {
+  font-size: 144%;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.mat-error .mat-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.mat-error {
+  font-size: 11px;
+
+  .mat-hint {
+    color: inherit;
+  }
+}
+
+.page-container {
+  .mat-card-content {
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+
+  // Adaptive modifier
+  &.page-adaptive {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+
+    .mat-card,
+    .mat-tab-group {
+      box-sizing: border-box;
+      flex: 1 1 0;
+    }
+
+    .card-adaptive,
+    .tab-group-adaptive {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .fixed-height-grid-wrapper {
+      flex-grow: 1;
+    }
+
+    .tab-group-adaptive .mat-tab-body-content {
+      display: flex;
+      flex-direction: column;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mat-tab-body-wrapper {
+      flex-grow: 1;
+    }
+  }
+
+  .card-action-button-wrapper {
+    padding-top: 10px;
+  }
+}

@@ -1,19 +1,14 @@
 import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
+  Component, EventEmitter, OnInit, Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { ValidationConstants } from 'src/app/shared';
 import { LoginRequest } from '../../models/login-request.model';
 import { IdentityService } from '../../services/identity.service';
-import { tap } from 'rxjs';
 import { TokenService } from '../../services/token.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './login-card.component.html',
@@ -30,7 +25,6 @@ export class LoginCardComponent implements OnInit {
     private readonly fromBuilder: FormBuilder,
     private readonly identityService: IdentityService,
     private readonly tokenService: TokenService,
-    private readonly notify: MatSnackBar,
     private readonly router: Router
   ) {
     this.createForm();

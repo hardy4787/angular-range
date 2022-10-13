@@ -8,6 +8,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [ToolbarComponent],
-  imports: [ToolbarRoutingModule, CommonModule, MatToolbarModule],
+  imports: [ToolbarRoutingModule, SharedModule, CommonModule, MatToolbarModule],
 })
 export class ToolbarModule {}

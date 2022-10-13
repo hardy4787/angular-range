@@ -68,10 +68,10 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.tokenService.logout();
           this.router.navigate(['/account/login']);
         } else {
-          let errorResponse: ErrorResponse = error.error;
-          console.log(JSON.stringify(errorResponse));
-
-          return throwError(() => errorResponse);
+          let errorResponses: string[] = error.error.errors;
+          errorResponses.forEach((error) =>
+            this.toastrService.error(error)
+          );
         }
 
         return EMPTY;

@@ -22,7 +22,7 @@ namespace API.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Inspection>>> GetInspection()
+        public async Task<ActionResult<IEnumerable<Inspection>>> GetInspections()
         {
             Trace.WriteLine(_jwtSettings.TokenLifetime.TotalSeconds);
             Trace.WriteLine(_jwtSettings.TokenLifetime.TotalSeconds);
@@ -70,7 +70,7 @@ namespace API.Controllers
 
             return NoContent();
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Inspection>> PostInspection(Inspection inspection)
         {
@@ -79,7 +79,25 @@ namespace API.Controllers
 
             return CreatedAtAction("GetInspection", new { id = inspection.Id }, inspection);
         }
-        
+
+        [HttpPost("save")]
+        public async Task<ActionResult<IEnumerable<Inspection>>> SaveInspections(List<Inspection> inspections)
+        {
+            inspections.ForEach(inspection =>
+            {
+                if (inspection.Id != 0)
+                {
+                    _context.Entry(inspection).State = EntityState.Modified;
+                } else
+                {
+                    _context.Inspection.Add(inspection);
+                }
+            });
+            await _context.SaveChangesAsync();
+
+            return await GetInspections();
+        }
+
         [HttpDelete("id")]
         public async Task<IActionResult> DeleteInspection(int id)
         {

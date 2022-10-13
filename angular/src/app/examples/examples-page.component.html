@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <div>
+      <button mat-button routerLink="/examples/trash">Trash</button>
+    </div>
+    <div>
+      <button mat-button routerLink="/examples/zoo">
+        Dependency Resolution
+      </button>
+    </div>
+    <div>
+      <button mat-button routerLink="/examples/hook">Hook</button>
+    </div>
+    <div>
+      <button mat-button routerLink="/examples/reactive">rxjs</button>
+    </div>
+    <div>
+      <button mat-button (click)="backToMainMenu()">Back to Main</button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>

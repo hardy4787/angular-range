@@ -17,7 +17,7 @@ export class IdentityService {
 
   signup$(body: SignupRequest): Observable<TokenInfo> {
     return this.serviceHelper.post$<TokenInfo>(
-      'api/identity/registration',
+      'api/identity/register',
       body
     );
   }

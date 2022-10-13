@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { FormValidators, ValidationConstants } from 'src/app/shared';
 import { SignupRequest } from '../../models/signup-request.model';
 import { IdentityService } from '../../services/identity.service';
-import { tap } from 'rxjs';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   templateUrl: './registration-card.component.html',

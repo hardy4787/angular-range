@@ -1,0 +1,5 @@
+<button (click)="onClick()">alert</button>
+<input [(ngModel)]="num" name="fact" />
+<div>pipe's Результат: {{ num | format }}</div>
+<div *ngIf="false">function's Результат: {{ onTransform(num)}} </div>
+<!-- <app-hook-grand-child></app-hook-grand-child> -->
