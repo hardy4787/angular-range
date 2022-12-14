@@ -21,7 +21,7 @@ import {
 export class HookChildComponent {
   num: number = 15.45;
   @Input() kek: string;
-
+  @Input() property: string;
   // constructor() {
   //   console.log('constructor');
   // }
@@ -53,6 +53,14 @@ export class HookChildComponent {
   // ngOnDestroy(): void {
   //   console.log('ngOnDestroy');
   // }
+
+  ngOnInit(): void {
+    console.log('ngOnInit', this.property);
+  }
+
+  ngOnChanges(): void {
+    console.log('ngOnChanges', this.property);
+  }
 
   onClick(): void {
     console.log('alert');

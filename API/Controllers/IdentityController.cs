@@ -34,7 +34,6 @@ namespace API.Controllers
                     Errors = authResponse.Errors,
                 });
             }
-
             return Ok(new AuthSuccessResponse
             {
                 Token = authResponse.Token,

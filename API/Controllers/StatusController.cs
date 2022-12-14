@@ -22,20 +22,15 @@ namespace API.Controllers
         {
             return await _context.Statuses.ToListAsync();
         }
-        
+
         [HttpGet("id")]
         public async Task<ActionResult<Status>> GetStatus(int id)
         {
             var status = await _context.Statuses.FindAsync(id);
 
-            if (status == null)
-            {
-                return NotFound();
-            }
-
-            return status;
+            return status ?? (ActionResult<Status>)NotFound();
         }
-        
+
         [HttpPut("id")]
         public async Task<IActionResult> PutStatus(int id, Status status)
         {
@@ -50,21 +45,14 @@ namespace API.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException) when (!StatusExists(id))
             {
-                if (!StatusExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Status>> PostStatus(Status status)
         {
@@ -73,7 +61,7 @@ namespace API.Controllers
 
             return CreatedAtAction("GetStatus", new { id = status.Id }, status);
         }
-        
+
         [HttpDelete("id")]
         public async Task<IActionResult> DeleteStatus(int id)
         {

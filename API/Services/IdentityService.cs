@@ -111,7 +111,6 @@ namespace API.Services
                 {
                     Errors = new[] { "This token has not expired yet" }
                 };
-
             }
 
             var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
@@ -124,7 +123,6 @@ namespace API.Services
                 {
                     Errors = new[] { "This refresh token does not exist" }
                 };
-
             }
 
             if (DateTime.UtcNow > storedRefreshToken.ExpiryDate)
@@ -183,11 +181,12 @@ namespace API.Services
             }
         }
 
-        private bool IsJwtWithValidSecurityAlgorithm(SecurityToken validatedToken) =>
-            (validatedToken is JwtSecurityToken jwtSecurityToken) &&
+        private static bool IsJwtWithValidSecurityAlgorithm(SecurityToken validatedToken)
+        {
+            return (validatedToken is JwtSecurityToken jwtSecurityToken) &&
                    jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                        StringComparison.InvariantCultureIgnoreCase);
-
+        }
 
         private async Task<AuthenticationResult> GenerateAuthenticationResultForUserAsync(User user)
         {

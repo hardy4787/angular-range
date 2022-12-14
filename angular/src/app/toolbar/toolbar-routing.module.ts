@@ -8,14 +8,14 @@ const routes: Routes = [
     path: '',
     component: ToolbarComponent,
     children: [
-      {
-        path: 'inspection',
-        loadChildren: () =>
-          import('../inspection/inspection.module').then(
-            (m) => m.InspectionModule
-          ),
-        canActivate: [AuthGuard],
-      },
+      // {
+      //   path: 'inspection',
+      //   loadChildren: () =>
+      //     import('../inspection/inspection.module').then(
+      //       (m) => m.InspectionModule
+      //     ),
+      //   canActivate: [AuthGuard],
+      // },
       {
         path: 'account',
         loadChildren: () =>

@@ -46,13 +46,10 @@ export class ReactivePageComponent {
           return interval(1000).pipe(takeWhile((value) => value < 5));
         })
       )
-      .subscribe((value) => {
-        // ++this.count;
-        console.log(value);
-        // if (this.count > 5) {
-        //   throw new Error('fdsfsdf');
-        // }
-      });
+      .subscribe(console.log);
+    // this.newSubscription = fromEvent(document, 'click')
+    //   .pipe(map((a) => a))
+    //   .subscribe((v) => console.log(`${v}` + 2));
   }
 
   concatMap(): void {
