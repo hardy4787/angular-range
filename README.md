@@ -1,3 +1,3 @@
-# angular-aspnet-postgressql
+# angular-range
 project for testing angular features
 
