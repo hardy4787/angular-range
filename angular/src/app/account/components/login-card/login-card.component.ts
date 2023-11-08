@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, OnInit, Output
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
@@ -19,10 +19,10 @@ export class LoginCardComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
   emailTextLimit = 50;
   passwordTextLimit = 50;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
-    private readonly fromBuilder: FormBuilder,
+    private readonly fromBuilder: UntypedFormBuilder,
     private readonly identityService: IdentityService,
     private readonly tokenService: TokenService,
     private readonly router: Router

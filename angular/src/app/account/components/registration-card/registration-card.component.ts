@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
@@ -17,10 +17,10 @@ export class RegistrationCardComponent {
   firstNameTextLimit = 50;
   lastNameTextLimit = 50;
   passwordTextLimit = 50;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
-    private readonly fromBuilder: FormBuilder,
+    private readonly fromBuilder: UntypedFormBuilder,
     private readonly identityService: IdentityService,
     private readonly router: Router,
     private readonly notify: MatSnackBar
