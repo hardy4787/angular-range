@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { FormValidators, ValidationConstants } from 'src/app/shared';
+import { SignupFormControls } from '../../models/signup-form-controls.model';
 import { SignupRequest } from '../../models/signup-request.model';
 import { IdentityService } from '../../services/identity.service';
 
@@ -17,10 +18,10 @@ export class RegistrationCardComponent {
   firstNameTextLimit = 50;
   lastNameTextLimit = 50;
   passwordTextLimit = 50;
-  form: UntypedFormGroup;
+  form: FormGroup<SignupFormControls>;
 
   constructor(
-    private readonly fromBuilder: UntypedFormBuilder,
+    private readonly fromBuilder: FormBuilder,
     private readonly identityService: IdentityService,
     private readonly router: Router,
     private readonly notify: MatSnackBar
@@ -29,19 +30,13 @@ export class RegistrationCardComponent {
   }
 
   createForm(): void {
-    this.form = this.fromBuilder.group(
+    this.form = this.fromBuilder.group<SignupFormControls>(
       {
-        firstName: ['', Validators.maxLength(this.firstNameTextLimit)],
-        lastName: ['', Validators.maxLength(this.lastNameTextLimit)],
-        email: [
-          '',
-          [Validators.required, Validators.maxLength(this.emailTextLimit)],
-        ],
-        password: [
-          '',
-          [Validators.required, Validators.maxLength(this.passwordTextLimit)],
-        ],
-        confirmPassword: ['', Validators.required],
+        firstName: new FormControl('', Validators.maxLength(this.firstNameTextLimit)),
+        lastName: new FormControl('', Validators.maxLength(this.lastNameTextLimit)),
+        email: new FormControl('', [Validators.required, Validators.maxLength(this.emailTextLimit)]),
+        password: new FormControl('', [Validators.required, Validators.maxLength(this.passwordTextLimit)]),
+        confirmPassword: new FormControl('', Validators.required),
       },
       { validators: FormValidators.match('password', 'confirmPassword') }
     );
